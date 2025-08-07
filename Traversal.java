@@ -1,60 +1,100 @@
-class Node {
+import java.util.Scanner;
+
+// Node structure for BST
+class Node 
+{
     int data;
     Node left, right;
 
-    Node(int data) {
-        this.data = data;
+    // Node constructor
+    Node(int value) 
+    {
+        this.data = value;
         left = right = null;
     }
 }
 
-public class BinaryTreeTraversal {
-
-    Node root;
-
-    BinaryTreeTraversal() {
-        root = null;
+public class BSTDemo 
+{
+    // Insert a new value in the BST
+    Node insert(Node root, int value) 
+    {
+        if (root == null) 
+        {
+            return new Node(value);
+        }
+        if (value < root.data) 
+        {
+            root.left = insert(root.left, value);
+        } 
+        else 
+        {
+            root.right = insert(root.right, value);
+        }
+        return root;
     }
 
-    void inorder(Node node) {
-        if (node == null) return;
-        inorder(node.left);
-        System.out.print(node.data + " ");
-        inorder(node.right);
+    // Inorder Traversal (Left, Root, Right)
+    void inorder(Node root) 
+    {
+        if (root != null) 
+        {
+            inorder(root.left);
+            System.out.print(root.data + " ");
+            inorder(root.right);
+        }
     }
 
-    void preorder(Node node) {
-        if (node == null) return;
-        System.out.print(node.data + " ");
-        preorder(node.left);
-        preorder(node.right);
+    // Preorder Traversal (Root, Left, Right)
+    void preorder(Node root) 
+    {
+        if (root != null) 
+        {
+            System.out.print(root.data + " ");
+            preorder(root.left);
+            preorder(root.right);
+        }
     }
 
-    void postorder(Node node) {
-        if (node == null) return;
-        postorder(node.left);
-        postorder(node.right);
-        System.out.print(node.data + " ");
+    // Postorder Traversal (Left, Right, Root)
+    void postorder(Node root) 
+    {
+        if (root != null) 
+        {
+            postorder(root.left);
+            postorder(root.right);
+            System.out.print(root.data + " ");
+        }
     }
 
-    public static void main(String[] args) {
-        BinaryTreeTraversal tree = new BinaryTreeTraversal();
-        tree.root = new Node(1);
-        tree.root.left = new Node(2);
-        tree.root.right = new Node(3);
-        tree.root.left.left = new Node(4);
-        tree.root.left.right = new Node(5);
+    public static void main(String[] args) 
+    {
+        BSTDemo bst = new BSTDemo();
+        Node root = null;
 
-        System.out.print("Inorder traversal: ");
-        tree.inorder(tree.root);
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the number of nodes in the BST:");
+        int n = sc.nextInt();
+
+        System.out.println("Enter node values:");
+        for (int i = 0; i < n; i++) 
+        {
+            int value = sc.nextInt();
+            root = bst.insert(root, value);
+        }
+
+        System.out.print("Inorder Traversal: ");
+        bst.inorder(root);
         System.out.println();
 
-        System.out.print("Preorder traversal: ");
-        tree.preorder(tree.root);
+        System.out.print("Preorder Traversal: ");
+        bst.preorder(root);
         System.out.println();
 
-        System.out.print("Postorder traversal: ");
-        tree.postorder(tree.root);
+        System.out.print("Postorder Traversal: ");
+        bst.postorder(root);
         System.out.println();
+
+        sc.close();
     }
 }
